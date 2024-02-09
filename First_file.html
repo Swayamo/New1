@@ -1,41 +1,30 @@
-const express = require("express");
-const app = express();
-const zod = require("zod");
-const bcrypt = require("bcrypt");
-app.use(express.json());
-
-const userSchema = zod.object({
-    email: zod.string().email(),
-    password: zod.string().min(6)
-})
-
-app.post("/api", (req, res) => {
-    const { email, password } = req.body;
-    const validatedUser = userSchema.safeParse(req.body);
-    if (!validatedUser.success) {
-        res.status(403).json({
-            message: "Invalid inputs"
-        })
-    }
-
-    bcrypt.hash(password, 10, (hash, err) => {
-        if (err) {
-            res.status(403).json({ message: "error 403" });
-        }
-
-        const data = { email: email, password: hash };
-        fs.appendFile("users.json", JSON.stringify(data), (err) => {
-            if (err) {
-                res.status(500).send("error 500");
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function factorial() {
+                let x= document.getElementById("name").value;
+                let result;
+                let t =1;
+                let i = 1;
+                for( i = 1; i<= x ; i++){
+                    t=t*i;
+                }
+                document.getElementById("demo").innerHTML = t;
+                
             }
-            res.status(200).json({
-                message: "User registered"
-            })
-        })
-    })
-
-})
-
-app.listen(3001, () => {
-    console.log("port 3001");
-})
+        </script>
+    </head>
+<body>
+  
+    <form >
+        <label for="name">Enter the number:</label>
+        <input type="number" id="name" name="name" required>
+        <button type="button" onclick=" factorial()">Submit</button>
+       
+    
+    </form>
+    <p id="demo"></p>
+  
+</body>
+</html>
